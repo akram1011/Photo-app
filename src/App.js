@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Photo from './components/Photo';
-import { connect, Provider } from 'react-redux';
+import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
   return {
@@ -20,15 +20,19 @@ function App(props) {
   const [searchVal, setSearchVal] = useState("");
   const [previewImg, setPreviewImg] = useState("");
 
+  const firstRenderRef = useRef(true)
 
   useEffect(() => {
-    fetch("https://raw.githubusercontent.com/Lokenath/MyRepo/master/Test/package.json")
-      .then(response => response.json())
-      .then(data => {
-        props.update(data.pics)
-      })
-      .catch(err => console.log(err));
-  }, []);
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false
+      fetch("https://raw.githubusercontent.com/Lokenath/MyRepo/master/Test/package.json")
+        .then(response => response.json())
+        .then(data => {
+          props.update(data.pics)
+        })
+        .catch(err => console.log(err));
+    }
+  }, [props]);
 
 
   const getPics = () => {
@@ -67,8 +71,8 @@ function App(props) {
     <div>
       <h3 className="header">Imaginary</h3>
       <div className="filter-container">
-        <a className={sortBy === "Like" ? "active" : ""} onClick={() => { sortClick("Like") }}> Most liked</a>
-        <a className={sortBy === "Comment" ? "active" : ""} style={{ borderLeft: "1px solid black" }} onClick={() => { sortClick("Comment") }} > Most Commented</a>
+        <span span-type="linked-text" className={sortBy === "Like" ? "active" : ""} onClick={() => { sortClick("Like") }}> Most liked</span>
+        <span span-type="linked-text" className={sortBy === "Comment" ? "active" : ""} style={{ borderLeft: "1px solid black" }} onClick={() => { sortClick("Comment") }} > Most Commented</span>
         <input className="search-feild" placeholder="Search images..." type="text" value={searchVal} onChange={(e) => { setSearchVal(e.target.value) }} />
       </div>
       <div className="image-container">
@@ -76,7 +80,7 @@ function App(props) {
       </div>
       {previewImg &&
         <div onClick={(e) => { modalClick(e) }} className="modal">
-          <img id="modal-img" src={previewImg} alt="photo" />
+          <img id="modal-img" src={previewImg} alt="engarled-pic" />
         </div>}
     </div>
   );

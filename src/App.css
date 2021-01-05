@@ -28,14 +28,15 @@
   margin-bottom: 20px;
 }
 
-a {
+span[span-type="linked-text"] {
   display: inline-block;
   text-decoration: underline;
   color: rgb(27, 10, 255);
-  padding: 10px 25px
+  padding: 10px 25px;
+  cursor: pointer;
 }
 
-a.active{
+span[span-type="linked-text"].active{
   color:rgb(0, 0, 77);
 }
 

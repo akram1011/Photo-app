@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = (dispatch) => {
@@ -22,7 +22,7 @@ function Photo(props) {
     }
 
     const postCommentClick = () => {
-        if(comment.trim()==="") {
+        if (comment.trim() === "") {
             setComment("");
             return null;
         }
@@ -37,18 +37,18 @@ function Photo(props) {
     const deleteComment = (id) => {
         let updatedData = { ...props.data }
         let currComments = [...props.data.comments];
-        currComments.splice(id,1);
+        currComments.splice(id, 1);
         updatedData.comments = currComments;
         props.updatePic(updatedData);
     }
 
     return (
         <div className="photo-wrap">
-            <img src={props.data.url} alt="photo" onClick={()=>props.setPreviewImg(props.data.url)} />
+            <img src={props.data.url} alt="thumbnail-pic" onClick={() => props.setPreviewImg(props.data.url)} />
             <br />
             <div className="photo-header">
                 <span style={{ paddingLeft: "20px" }} >{props.data.likes}</span>
-                <a style={{ padding: "0px 0px 0px 10px" }} className={liked ? "active" : ""} onClick={() => { LikeClick() }}>{liked ? "unlike" : "like"}</a>
+                <span span-type="linked-text" style={{ padding: "0px 0px 0px 10px" }} className={liked ? "active" : ""} onClick={() => { LikeClick() }}>{liked ? "unlike" : "like"}</span>
                 <p className="category-desc">{props.data.category}</p>
             </div>
             <div className="d-flex">
